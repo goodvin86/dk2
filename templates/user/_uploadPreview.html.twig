@@ -1,0 +1,36 @@
+<div class="tbody_div">
+    {% for user in users %}
+        <div class="row_div" id="row_{{ user.id }}">
+            <div class="cell_thead_div_id">{{ user.id }}</div>
+            <div class="cell_thead_div">{{ user.lastname }}</div>
+            <div class="cell_thead_div">{{ user.firstname }}</div>
+            <div class="cell_thead_div">{{ user.patronymic }}</div>
+            <div class="cell_thead_div">{{ user.birthday|date('d.m.Y') }}</div>
+            <div class="cell_thead_div">{{ user.city }}</div>
+            <div class="cell_thead_div">{{ user.weather }}</div>
+            <div class="cell_thead_div">{{ user.role }}</div>
+            <div class="cell_div_oper">
+                <div>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">
+                        <button class="btn btn-secondary btn-sm button_edit">Изменить</button>
+                    </a>
+                </div>
+                <div {{ stimulus_controller('submit-confirm-jq', {
+                    title: "Удалить пользователя?",
+                    text: user.lastname,
+                    formUrl: path('app_user_delete', {'id': user.id})
+                }) }}>
+                    <button
+                            class="btn btn-secondary btn-sm button_delete"
+                            data-action="submit-confirm-jq#onSubmit">
+                        Удалить
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row_empty">
+            Записи не найдены
+        </div>
+    {% endfor %}
+</div>
